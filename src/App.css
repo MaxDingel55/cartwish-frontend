@@ -1,0 +1,4 @@
+.app {
+  display: grid;
+  grid-template-rows: 80px auto; /* first row is 80px tall, second fills up rest of screen (auto) */
+}
