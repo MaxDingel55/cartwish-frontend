@@ -64,7 +64,7 @@ const App = () => {
 		dispatchCart({ type: "ADD_TO_CART", payload: { product, quantity } });
 
 		addToCartMutation.mutate({id: product._id, quantity: quantity}, {
-			onError: () => {
+			onError: (error) => {
 				console.error("Add to cart failed:", error);
 				toast.error("Something went wrong 1!");
 				dispatchCart({ type: "REVERT_CART", payload: { cart } });
@@ -97,8 +97,9 @@ const App = () => {
 
 		dispatchCart({ type: "GET_CART", payload: { products: updatedCart } });
 
-		updateCartMutation.mutate({id, type}, {
-			onError: () => {
+		updateCartMutation.mutate({ id, type }, {
+			onError: (error) => {
+				console.error("Update cart failed:", error.response?.data || error.message);
 				toast.error("Something went wrong 3!");
 				dispatchCart({ type: "REVERT_CART", payload: { cart } });
 			}
