@@ -1,4 +1,5 @@
-import React, { memo, useContext, useMemo } from 'react'
+import React, { memo, useContext, useReducer, useMemo } from 'react'
+import {toast} from 'react-toastify'
 
 import './CartPage.css'
 import config from '../../config.json'
@@ -13,7 +14,7 @@ const CartPage = () => {
 
     const user = useContext(UserContext); 
 
-    const { cart, removeFromCart, updateCart, setCart } = useContext(CartContext); // getting cart info from App.jsx
+    const { cart, revertCart, removeFromCart, updateCart, clearCart } = useContext(CartContext); // getting cart info from App.jsx
 
     // // useEffect() approach (need an extra state variable):
 
@@ -39,13 +40,13 @@ const CartPage = () => {
     }, [cart]);
 
     const checkout = () => {
-        const oldCart = [...cart];
-        setCart([]);
+        clearCart(); // assume succeeded => clear the cart, and call checkoutAPI()
         checkoutAPI().then(() => {
             toast.success("Order placed successfully!");
+
         }).catch(() => {
             toast.error("Something went wrong 4!")
-            setCart(oldCart);
+            revertCart();
         })
     }
 

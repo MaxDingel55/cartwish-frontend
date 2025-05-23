@@ -23,6 +23,10 @@ const App = () => {
 	const [cart, dispatchCart] = useReducer(cartReducer, []);
 	const { data: cartData, refetch } = useData("/cart", null, ["cart"]);
 
+	// to pass to CartPage.jsx using useContext() hook
+	const clearCart = () => dispatchCart({ type: "CLEAR_CART" });
+	const revertCart = () => dispatchCart({ type: "REVERT_CART" });
+
 	// mutation variables
 	const addToCartMutation = useAddToCart();
 	const removeFromCartMutation = useRemoveFromCart();
@@ -111,7 +115,7 @@ const App = () => {
 		// Whatever is between UserContext.Provider, those components and their children can access
 		//  the info (object, data, functions) passed in the value props
 		<UserContext.Provider value={user}>
-			<CartContext.Provider value={{ cart, addToCart, removeFromCart, updateCart }}>
+			<CartContext.Provider value={{ cart, addToCart, revertCart, removeFromCart, updateCart, clearCart }}>
 				<div className='app'>
 					<Navbar />
 					<main>

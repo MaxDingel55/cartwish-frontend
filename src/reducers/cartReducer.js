@@ -27,6 +27,9 @@ const cartReducer = (cart, action) => {
                 (item) => item.product._id !== action.payload.id
             );
             return newCart;
+
+        case "CLEAR_CART":
+            return [];
     }
 };
 
